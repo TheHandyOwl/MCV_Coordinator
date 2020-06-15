@@ -8,13 +8,25 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, Storyboarded {
 
+    @IBOutlet weak var tableView: UITableView!
+    
+    var coordinator : MainCoordinator?
+    var dataSource = ObjectDataSource()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        tableView.dataSource = dataSource
+        showAlert(withTitle: "Mi título", withMessage: "Bienvenido, ...")
     }
+    
+}
 
-
+extension ViewController : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = dataSource.dataArray[indexPath.row]["Nombre"]!
+        coordinator?.goToDetailView(with: model)
+    }
 }
 
